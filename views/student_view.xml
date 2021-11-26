@@ -87,7 +87,7 @@
 
                     <group string="Personal Information">
 
-                        <field name="f_name" attrs="{'readonly': [('etat_etudiant','=', 'Etudiant')]}"/>
+                        <field name="f_name"/>
                         <field name="l_name"/>
                         <field name="identity_card"/>
                     </group>

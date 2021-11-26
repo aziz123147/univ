@@ -66,7 +66,7 @@ class UniversityStudent(models.Model):
 
 
 
-    def action_administration_student(self):
+    def action_administration(self):
         student_group = self.env.ref('university_managment.group_university_student')
         student_group.write({'users':[(4,self.student_id.id)]})
         teacher_group = self.env.ref('university_managment.group_university_teacher')
