@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "University",
+    'name': "University_managment",
     'sequence': '-100',
     'description': """
         gestion de l'université (etudiants, enseignants, matières ... etc)
