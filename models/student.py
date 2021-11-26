@@ -104,7 +104,7 @@ class UniversityStudent(models.Model):
     def create(self, values):
         if self.env['res.users'].sudo().search([('login', '=', values.get('e_mail'))]):
             user_id = self.env['res.users'].search([('login', '=', values.get('e_mail'))])
-            print("lgin existe dans la base , donc pour le client enregistré en amant")
+            values.update(student_id=user_id.id)
         else:
             vals_user = {
                 'name': values.get('f_name'),
@@ -113,12 +113,8 @@ class UniversityStudent(models.Model):
                 # other required field
             }
             user_id = self.env['res.users'].sudo().create(vals_user)
-            print("lgin non existant dans la base res_users , donc pour le client enregistré par l 'administrateur ")
-        values.update(student_id=user_id.id)
+            values.update(student_id=user_id.id)
         res = super(UniversityStudent, self).create(values)
-
-
-
         return res
 
     @api.constrains('e_mail')
