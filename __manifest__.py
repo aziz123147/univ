@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 {
+
+
     'name': "University_managment",
     'sequence': '-100',
     'description': """
