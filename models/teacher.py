@@ -20,14 +20,26 @@ class UniversityTeacher(models.Model):
     code_postale = fields.Char('Code postale')
     date_inscription = fields.Datetime(string='Date Inscription', default=fields.Datetime.now, readonly=True)
     date_start = fields.Datetime('Date of start', default=fields.Datetime.now, readonly=True)
-
+    image = fields.Binary(string="Image", attachment=True)
+    image_cin = fields.Binary(string="CIN", attachment=True)
+    image_cv = fields.Binary(string="CV", attachment=True)
 
 
     teacher_id = fields.Many2one('res.users', ondelete='set null', string="User", index=True)
-    suggestions = fields.Text('Suggestions')
     subject_id = fields.Many2one(comodel_name='university.subject', string='Matiere')
     class_ids = fields.Many2many('university.class', 'prof_class_rel', 'f_name', 'class_name', string='Classe')
+    state = fields.Selection([
+        ('enregistre', 'Enregistre'),
+        ('en_cours', 'Encours'),
+    ], string='Status', readonly=True, default='enregistre')
 
+    def action_administration(self):
+        student_group = self.env.ref('university_managment.group_university_student')
+        student_group.write({'users':[(3,self.teacher_id.id)]})
+        teacher_group = self.env.ref('university_managment.group_university_teacher')
+        teacher_group.write({'users':[(4,self.teacher_id.id)]})
+        admin_group = self.env.ref('university_managment.group_university_administrateur')
+        admin_group.write({'users':[(3,self.teacher_id.id)]})
 
     @api.model
     def create(self, values):
@@ -47,4 +59,28 @@ class UniversityTeacher(models.Model):
 
             return res
 
+    def action_enregsitre(self):
+        for rec in self:
+            rec.state = 'enregistre'
+
+
+    def action_en_cours(self):
+        for rec in self:
+            rec.state = 'en_cours'
+
+    @api.constrains('e_mail')
+    def validate_email(self):
+        for obj in self:
+            if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", obj.e_mail) == None:
+                raise ValidationError("Vérifier votre adresse mail  : %s" % obj.e_mail)
+
+        return True
+
+    @api.constrains('phone')
+    def check_name(self):
+        for rec in self:
+            if len(self.phone) != 8:
+                raise ValidationError(_('Numéro de tel doit contenir seulement 8 chiffres'))
+            if len(self.identity_card) != 8:
+                raise ValidationError(_('Numéro  de cin/passeport doit contenir seulement 8 chiffres'))
 

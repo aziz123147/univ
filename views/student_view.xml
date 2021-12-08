@@ -13,10 +13,16 @@
                 <field name="date_inscription"/>
                 <field name="e_mail"/>
                 <field name="phone"/>
+                 <field name="image"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                             <ul>
+
+                                     <field name="image" nolabel="1" widget="image" class="oe_right oe_avatar"/>
+
+
+
                                 <li>First name :
                                     <field name="f_name"/>
                                 </li>
@@ -81,15 +87,19 @@
                                options="{'clickable':0}"/>
 
 
-
-
                      </header>
+
+                    <field name="image" widget="image" class="oe_avatar"/>
 
                     <group string="Personal Information">
 
                         <field name="f_name"/>
                         <field name="l_name"/>
                         <field name="identity_card"/>
+                        <field name="image_cin" />
+                        <field name="image_cv" />
+
+
                     </group>
 
                     <group>
@@ -103,6 +113,17 @@
                        <group>
                         <field name="class_id"/>
                         </group>
+                    <notebook>
+                        <page string="Adresse" name="information">
+                            <group>
+                                <field name="rue"/>
+                                <field name="ville"/>
+                                <field name="code_postale"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>
