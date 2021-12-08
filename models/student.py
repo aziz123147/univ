@@ -45,7 +45,9 @@ class UniversityStudent(models.Model):
     ville = fields.Char('Ville')
     code_postale = fields.Char('Code postale')
     date_inscription = fields.Datetime(string='Date Inscription' , default=fields.Datetime.now, readonly=True)
-
+    image = fields.Binary(string="Image", attachment=True)
+    image_cin = fields.Binary(string="CIN", attachment=True)
+    image_cv= fields.Binary(string="CV", attachment=True)
     date_paiement = fields.Datetime(string='Date Prochain Paiement', default=fields.Datetime.now)
     state = fields.Selection([
         ('nouveau', 'Nouveau Inscrit'),
